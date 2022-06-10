@@ -15,14 +15,6 @@ module.exports = {
     // Error if files are not formatted with Prettier correctly.
     'prettier/prettier': 2,
     // syntax preferences
-    quotes: [
-      2,
-      'single',
-      {
-        avoidEscape: true,
-        allowTemplateLiterals: true,
-      },
-    ],
     'spaced-comment': [
       2,
       'always',
@@ -144,8 +136,6 @@ module.exports = {
         // We don't require explicit return types on basic functions or
         // dummy functions in tests, for example
         '@typescript-eslint/explicit-function-return-type': 0,
-        // We know it's bad and use it very sparingly but it's needed :(
-        '@typescript-eslint/ban-ts-ignore': 0,
         // We allow non-null assertions if the value was asserted using `assert` API.
         '@typescript-eslint/no-non-null-assertion': 0,
         /**
@@ -176,6 +166,15 @@ module.exports = {
         ],
         // By default this is a warning but we want it to error.
         '@typescript-eslint/explicit-module-boundary-types': 2,
+
+        'no-restricted-syntax': [
+          'error',
+          {
+            // Never use `require` in TypeScript.
+            selector: "CallExpression[callee.name='require']",
+            message: '`require` statements are not allowed. Use `import`.',
+          },
+        ],
       },
     },
   ],

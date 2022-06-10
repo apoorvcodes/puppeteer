@@ -54,7 +54,7 @@ export interface BrowserConnectOptions {
   /**
    * @internal
    */
-  isPageTarget?: IsPageTargetCallback;
+  _isPageTarget?: IsPageTargetCallback;
 }
 
 const getWebSocketTransportClass = async () => {
@@ -67,9 +67,10 @@ const getWebSocketTransportClass = async () => {
 /**
  * Users should never call this directly; it's called when calling
  * `puppeteer.connect`.
+ *
  * @internal
  */
-export const connectToBrowser = async (
+export const _connectToBrowser = async (
   options: BrowserConnectOptions & {
     browserWSEndpoint?: string;
     browserURL?: string;
@@ -84,7 +85,7 @@ export const connectToBrowser = async (
     transport,
     slowMo = 0,
     targetFilter,
-    isPageTarget,
+    _isPageTarget: isPageTarget,
   } = options;
 
   assert(
@@ -112,7 +113,7 @@ export const connectToBrowser = async (
   const { browserContextIds } = await connection.send(
     'Target.getBrowserContexts'
   );
-  return Browser.create(
+  return Browser._create(
     connection,
     browserContextIds,
     ignoreHTTPSErrors,
